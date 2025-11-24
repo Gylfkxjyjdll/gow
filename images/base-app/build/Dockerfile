@@ -51,8 +51,8 @@ ARG REQUIRED_PACKAGES="\
     mesa-vulkan-drivers libgbm1 libgles2 libegl1 libgl1-mesa-dri \
     libnvidia-egl-wayland1 libnvidia-egl-gbm1 \
     fonts-noto-cjk \
-    locales \
-    gamescope \
+    locales swaybg libjson-c5 \
+    gamescope polkitd \
     xwayland kitty nano \
     waybar fonts-font-awesome xdg-desktop-portal xdg-desktop-portal-gtk psmisc \
     "
@@ -82,15 +82,22 @@ COPY --from=sdl-jstest-builder /sdl-jstest/build/sdl2-jstest /usr/local/bin/sdl2
 # Add /usr/games/ to $PATH in order to be able to run gamescope
 ENV PATH="/usr/games/:${PATH}"
 
+# Install wlroot manuell
+RUN wget -O /tmp/libwlroots.deb "http://launchpadlibrarian.net/827365026/libwlroots-0>
+ && apt-get update \
+ && apt-get install -y --no-install-recommends /tmp/libwlroots.deb
+#################################
+
+
 #################################
 # Install Sway
 #################################
-# We had lots of issues with Sway 1.10.1
-# So we are manually reverting back to 1.9 from Ubuntu 24.04
+# 
+# Install latest devbuild 
 RUN <<_INSTALL_SWAY
 #!/bin/bash
 set -e
-curl -L -o sway.deb https://launchpad.net/ubuntu/+source/sway/1.9-1build2/+build/28013086/+files/sway_1.9-1build2_amd64.deb
+curl -L -o sway.deb http://launchpadlibrarian.net/827701692/sway_1.11-3_amd64.deb
 apt update
 apt install -y --no-install-recommends ./sway.deb
 rm -rf /var/lib/apt/lists/* ./sway.deb
