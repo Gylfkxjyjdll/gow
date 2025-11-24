@@ -83,7 +83,7 @@ COPY --from=sdl-jstest-builder /sdl-jstest/build/sdl2-jstest /usr/local/bin/sdl2
 ENV PATH="/usr/games/:${PATH}"
 
 # Install wlroot manuell
-RUN wget -O /tmp/libwlroots.deb "http://launchpadlibrarian.net/827365026/libwlroots-0>
+RUN wget -O /tmp/libwlroots.deb  "http://launchpadlibrarian.net/827365026/libwlroots-0.19_0.19.1-1_amd64.deb"
  && apt-get update \
  && apt-get install -y --no-install-recommends /tmp/libwlroots.deb
 #################################
